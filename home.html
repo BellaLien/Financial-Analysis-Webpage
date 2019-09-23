@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <!--<meta http-equiv="refresh" content="3">-->
+  <title>履歷表健診</title>
+  <!--get bootstrap resource-->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <!--create PDF-->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+  <!--get myjs-->
+  <script src="./myjavascript.js"></script>
+  <!--del array-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js"></script>
+  <!--css of boundry-->
+  <link rel=stylesheet type="text/css" href="./myCSS.css">
+  <script src=https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.3/jquery.csv.js> </script>
+
+
+</head>
+<body>
+  <!--page1-->
+  <div id="page1">
+    <div style="text-align:center;margin-top:200px;">
+      <!--donw 200-->
+      <font size="18px" face="DFKai-sb"><h1>履歷表健診</h1></font>
+      <div style="margin-top:50px;">
+        <!--donw 200-->
+          <p>讓我們幫助你進行設計<br/><br/>你只要專注於推銷自己的技能及獲得夢想的工作</p>
+      </div>
+      <div style="margin-top:20px;margin-right:25px;">
+
+        <br />
+        <!--noly number or alphabet or _-->
+        <!--  空白的話-->
+        <div style="margin-top:30px;">
+        <a>帳號</a>
+    <input type="text" style="width:150px; background-color:white;" maxlength="10" pattern="[a-zA-Z0-9]{5,10}"
+          placeholder="請輸入您的帳號" title="只能輸入字母、數字，長度為5-10" id="userid"   required>
+        <br />
+        <a>密碼</a>
+    <input type="password" style="width:150px; background-color:white;" maxlength="10"
+          pattern="[a-zA-Z0-9]{5,10}" placeholder="請輸入您的密碼" title="只能輸入字母、數字，長度為5-10" id="userpwid"
+           required >
+        <br />
+        <br />
+        <input style="margin-left:25px;" type="submit" value="註冊" id="register" onclick="registered()" />
+        <input style="margin-left:25px;" type="submit" value="登入" id="start" onclick="login()" />
+</div>
+      </div>
+    </div>
+  </div>
+
+  <!--page2-->
+
+  <div id="page2" style="display: none">
+    <!--結果-->
+    <div class="container-fluid" style="margin-top:30px;margin-left:30px;">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="row " style="border-bottom-style: none ;">
+            <div class="col-sm-10 holeborder" style="height: 50px;">
+              <font size="6px" face="DFKai-sb"><b>分數:</b></font>
+              <input type="text" id="score" readonly="readonly" style="width:10%;background-color: white;"
+                value="100">
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-sm-10 holeborder" style="height:200px">
+              <font size="6px" face="DFKai-sb"><b>診斷結果:</b></font>
+              <textarea id="suggest" readonly="readonly"
+                style="width:100%;height:150px;background-color: white;"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <!--btn-->
+          <div class="row">
+            <div>&nbsp;</div>
+          </div>
+          <div class="row">
+            <div>&nbsp;</div>
+          </div>
+          <div class="row">
+            <div>&nbsp;</div>
+          </div>
+          <div class="row">
+            <div>&nbsp;</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4"><input type="button" id="save" value="備份儲存" class="button2" style="height:40px;" onclick="btnbackupfile()"></div>
+            <div class="col-sm-4">
+              <!--<form action="job.php" method="post">-->
+                <input type="submit" id="calscore" name="calscore" value="開始評分" class="button2" style="height:40px;" onclick="apiscore()">
+            </div>
+            <div class="col-sm-4" href='#' ><input type="button" id="download" value="下載履歷表" class="button2" style="height:40px;" onclick='window.print()'></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" style="text-align:center;margin-top:50px;margin-left:5px;">
+      <div class="row " id="content">
+        <div class="col-sm-6">
+          <!--個人履歷-->
+          <div class="row ">
+            <div class="col-sm-11 holeborder">
+              <font size="6px" face="DFKai-sb"><b>個人履歷</b></font>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2 holeborder ">應徵公司</div>
+            <div class="col-sm-9 holeborder"><input type="text" name="company" id="company"
+                style="width:100%;background-color: white; height:30px;height:30px;margin-top:3px;" required></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2 holeborder ">應徵職務</div>
+            <div class="col-sm-9 holeborder "><input type="text"  id="job"
+                style="width:100%;background-color:white ;height:30px;margin-top:3px;" required></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-11 holeborder" style="text-align:left">
+              <font size="5px" face="DFKai-sb"><b>基本資料</b></font>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2 holeborder">中文姓名</div>
+            <div class="col-sm-3 holeborder"><input type="text" id="CName"
+                style="width:100%;background-color: white;height:30px;margin-top:3px;" required></div>
+            <div class="col-sm-2 holeborder">出生</div>
+            <div class="col-sm-4 holeborder"><input type="date" max="2019-06-01" id="birthday"
+                style="width:100%;background-color: white;height:30px;margin-top:3px;" required></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2 holeborder">英文姓名</div>
+            <div class="col-sm-3 holeborder"><input type="text" id="EName"
+                style="width:100%;background-color: white;height:30px;margin-top:3px;" required ></div>
+            <div class="col-sm-2 holeborder">性別</div>
+            <div class="col-sm-4 holeborder"><input type="text" id="sex"
+                style="width:100%;background-color: white;height:30px;margin-top:3px;" required ></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2 holeborder">電話</div>
+            <div class="col-sm-3 holeborder"><input type="tel" id="tel"
+                style="width:100%;background-color:white ;height:30px;margin-top:3px;" required ></div>
+            <div class="col-sm-2 holeborder">信箱</div>
+            <div class="col-sm-4 holeborder"><input type="email" id="mail"
+                style="width:100%;background-color: white;height:30px;margin-top:3px;" required ></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2 holeborder">通訊地址</div>
+            <div class="col-sm-9 holeborder"><input type="text" id="address"
+                style="width:100%;background-color: white;height:30px;margin-top:3px;" required ></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-11 holeborder" style="text-align:left">
+              <font size="5px" face="DFKai-sb"><b>學歷資料</b></font>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3 holeborder"><b>學歷</b></div>
+            <div class="col-sm-4 holeborder"><b>學校</b></div>
+            <div class="col-sm-4 holeborder"><b>系別</b></div>
+            <div class="col-sm-1" style="text-align:left;"><input type="button" id="addrow" class="button1" value="+"></div>
+          </div>
+          <div class="row ">
+            <div class="col-sm-3 holeborder"><input type="text" id="education"
+                style="width:100%;background-color:white ;height:30px;margin-top:3px;" placeholder="大學"  required>
+            </div>
+            <div class="col-sm-4 holeborder"><input type="text" id="school"
+                style="width:100%;background-color:white ;height:30px;margin-top:3px;" placeholder="XXX大學" required >
+            </div>
+            <div class="col-sm-4 holeborder"><input type="text" id="department"
+                style="width:100%;background-color:white ;height:30px;margin-top:3px;" placeholder="資訊工程" required >
+            </div>
+          </div>
+          <!---->
+          <div class="addedurow"></div>
+          <!---->
+          <div class="row">
+            <div class="col-sm-11 holeborder" style="text-align:left">
+              <font size="5px" face="DFKai-sb"><b>技能</b></font>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3 holeborder"><b>項目</b></div>
+            <div class="col-sm-4 holeborder"><b>技術</b></div>
+            <div class="col-sm-4 holeborder"><b>實作</b></div>
+            <div class="col-sm-1" style="text-align:left;"><input type="button" id="addrow2" class="button1" value="+"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3 holeborder"><input type="text" id="work"
+                style="width:100%;background-color:white ;height:30px;margin-top:3px;" placeholder="文件處理"  required>
+            </div>
+            <div class="col-sm-4 holeborder"><input type="text" id="skill"
+                style="width:100%;background-color: white;height:30px;margin-top:3px;" placeholder="Excel,Word,PowerPoint"
+                required></div>
+            <div class="col-sm-4 holeborder"><input type="text" id="project"
+                style="width:100%;background-color:white ;height:30px;margin-top:3px;" placeholder="報告"  required>
+            </div>
+          </div>
+          <!---->
+          <div class="addskillrow"></div>
+          <!---->
+          <div class="row" >
+            <div class="col-sm-11 holeborder " style="text-align:left">
+              <font size="5px" face="DFKai-sb"><b>工作經驗</b></font>
+            </div>
+            
+          </div>
+
+          <div class="row " >
+            <div class="col-sm-4 holeborder"><b>公司</b></div>
+            <div class="col-sm-4 holeborder"><b>職位</b></div>
+            <div class="col-sm-3 holeborder"><b>工作經歷</b></div>
+            <div class="col-sm-1" style="text-align:left;"><input type="button" id="addrow3" class="button1" value="+">
+            </div>
+
+          </div>
+          <div class="row " >
+            <div class="col-sm-4 holeborder"><input type="text" id="excompany"
+                style="width:100%;background-color: white;height:30px;margin-top:3px;" placeholder="KKBOX" required></div>
+            <div class="col-sm-4 holeborder"><input type="text" id="excareer"
+                style="width:100%;background-color:white ;height:30px;margin-top:3px;" placeholder="實習生" required></div>
+            <div class="col-sm-3 holeborder"><input type="text" id="experience"
+                style="width:100%;background-color: white;height:30px;margin-top:3px;" placeholder="2年" required></div>
+          </div>
+           <!---->
+          <div class="addworkrow"></div>
+          <!---->
+        </div>
+        <div class="col-sm-5 ">
+          <!--自傳-->
+          <div class="row">
+            <div class="col-sm-12 holeborder">
+              <font size="6px" face="DFKai-sb"><b>自傳</b></font>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 holeborder " style="text-align: left;border-bottom-style: none;">
+              <font size="5px" face="DFKai-sb"><b>一、個人背景</b></font>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 autobiography" style="border-top-style: none;">
+              <textarea id="part1" style="width:100%;height:95px;background-color:white ;" required></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 holeborder " style="text-align: left;border-bottom-style: none;">
+              <font size="5px" face="DFKai-sb"><b>二、求學心得／就業心得</b></font>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 autobiography" style="border-top-style: none;height: 200px;">
+              <textarea id="part2" style="width:100%;height:190px;background-color: white;" required></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 holeborder " style="text-align: left;border-bottom-style: none;">
+              <font size="5px" face="DFKai-sb"><b>三、對應徵工作的認識</b></font>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 autobiography" style="border-top-style: none;">
+              <textarea id="part3" style="width:100%;height:95px;background-color:white ;" required ></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 holeborder " style="text-align: left;border-bottom-style: none;">
+              <font size="5px" face="DFKai-sb"><b>四、個人特質</b></font>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 autobiography" style="border-top-style: none;height: 150px">
+              <textarea id="part4" style="width:100%;height:145px;background-color:white ;" required ></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 holeborder " style="text-align: left;border-bottom-style: none;">
+              <font size="5px" face="DFKai-sb"><b>五、職涯規劃</b></font>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 autobiography" style="border-top-style: none;">
+              <textarea id="part5" style="width:100%;height:95px;background-color:white ;" required></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-1">
+          <!--row will vertical if no big row-->
+          <div class="row " style="text-align:right;">
+
+            <div><input type="button" id="delfiles" value="刪除備份" class="button2" style="height:40px;" title="按下會刪除帳號及所有資料"
+                onclick="show()"></div>
+          </div>
+
+        </div>
+        <div class="row">
+            <div>&nbsp;</div>
+        </div>
+        <div class="row">
+            <div>&nbsp;</div>
+        </div>
+        <div class="col-sm-12 ">
+          <font size="6px" face="DFKai-sb"><b>104人力銀行找推薦工作</b></font>
+            <div class="row">
+              <div class="col-sm-1 "></div>
+              <div class="col-sm-10 ">
+                <!---->
+                  <div class="deljob"></div>
+                  <div class="addjob"></div>
+                <!---->
+              </div>
+              <div class="col-sm-1 "></div>
+            </div> 
+            
+        </div>
+        <div class="row">
+            <div>&nbsp;</div>
+        </div>
+        <div class="row">
+            <div>&nbsp;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

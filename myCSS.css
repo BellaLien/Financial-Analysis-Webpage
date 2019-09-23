@@ -1,0 +1,65 @@
+
+body {
+	
+	font-family: Georgia, "Times New Roman", Times, serif;
+	color: #444444;
+	background-color: #ffffff ;
+	background-image :url(bg.jpg); 
+	height: 50%; 
+	background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+h1 { color: #111; font-family: 'Helvetica Neue', sans-serif; font-size: 75px; font-weight: bold; letter-spacing: -1px; line-height: 1; text-align: center; }
+
+
+h2 { color: #111; font-family: 'Open Sans', sans-serif; font-size: 30px; font-weight: 300; line-height: 32px; margin: 0 0 20px; text-align: center; }
+
+
+p { color:  #444444; font-family: 'DFKai-sb', sans-serif; font-size: 28px; line-height: 24px; margin: 0 0 24px; text-align: justify; text-justify: inter-word; text-align: center; }
+
+.button1 {
+  color: black;
+	border: 1px solid #555555;
+	border-radius: 70%;
+  text-align: center;
+  text-decoration: none;
+}
+.button2 {
+  color: black;
+	border: 1px solid #555555;
+	font-size: 10px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.holeborder {
+    border-width: 1px;
+    border-style: solid;
+    height: 38px;   }
+
+.autobiography {
+    border-width: 1px;
+    border-style: solid;
+    height: 100px;  }
+	
+input {
+	padding:5px 18px;
+	margin: 5px 5px 0px 0px; background:#ccc; border:0 none;
+	cursor:pointer;
+	-webkit-border-radius: 5px;
+	border-radius: 1px; 
+	color: (internal value);}
+
+input:hover {
+  background: #AAAAAA;
+}
+
+a{
+	color: #444444;
+	padding:5px 15px;
+	font-family: Helvetica, Geneva, Arial, SunSans-Regular, sans-serif;
+	cursor: auto;
+}
+
